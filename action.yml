@@ -1,0 +1,29 @@
+name: Generate Dev Container readmes
+description: 💻 Publish a single Dev Container Feature
+branding:
+  icon: upload-cloud
+  color: blue
+inputs:
+  path:
+    default: .
+  files:
+    default: "**/*"
+  source:
+    default: ${{ github.server_url }}/${{ github.repository }}
+  image:
+    default: ghcr.io/${{ github.repository_owner }}/features/*
+  latest:
+    default: true
+runs:
+  using: composite
+  steps:
+    - uses: oras-project/setup-oras@v1
+    - id: main
+      run: '"$GITHUB_ACTION_PATH/mainw"'
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_FILES: ${{ inputs.files }}
+        INPUT_SOURCE: ${{ inputs.source }}
+        INPUT_IMAGE: ${{ inputs.image }}
+        INPUT_LATEST: ${{ inputs.latest }}
